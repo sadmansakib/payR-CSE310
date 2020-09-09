@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"payR/models"
 	"payR/services"
 
 	"github.com/gin-gonic/gin"
@@ -9,13 +10,11 @@ import (
 
 func SignupNewCustomer() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		fName := c.Query("first_name")
-		lName := c.Query("last_name")
-		mail := c.Query("email")
-		pass := c.Query("password")
+		customer := models.Customer{}
+		c.ShouldBindJSON(&customer)
 
-		services.SignupCustomer(fName, lName, mail, pass)
+		services.SignupCustomer(customer)
 
-		c.String(http.StatusCreated, "SUCCESS")
+		c.Status(http.StatusCreated)
 	}
 }
