@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"log"
 	"payR/database"
 	"payR/models"
@@ -10,8 +9,6 @@ import (
 func SignupCustomer(
 	customer models.Customer,
 ) {
-
-	fmt.Println(customer.FName)
 	var db = database.ConnectDB()
 	sqlQuery := `INSERT INTO customer (fname, lname, email, pass)
 	VALUES ($1, $2, $3, $4)`
