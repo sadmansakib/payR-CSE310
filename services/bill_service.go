@@ -5,6 +5,7 @@ import (
 	"payR/models"
 )
 
+
 func GetAllBills() []models.Bill {
 	return database.AllBills
 }
