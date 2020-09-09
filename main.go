@@ -12,5 +12,7 @@ func main() {
 	router.GET("/customers", handlers.GetAllCustomers())
 	router.GET("/customers/:id", handlers.GetCustomerById())
 
+	router.GET("/customers/:id/bills", handlers.GetBillsByCustomerID())
+
 	router.Run()
 }

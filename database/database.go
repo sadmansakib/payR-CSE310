@@ -52,7 +52,3 @@ var accountState = models.Account{
 var Allcustomers = []models.Customer{
 	customer1, customer2,
 }
-
-var AllBills = []models.Bill{
-	billCustomer1, billCustomer2,
-}

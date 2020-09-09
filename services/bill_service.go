@@ -1,21 +1,22 @@
 package services
 
 import (
+	"errors"
 	"payR/database"
 	"payR/models"
 )
-
 
 func GetAllBills() []models.Bill {
 	return database.AllBills
 }
 
-func GetBillsByCustomerID(id int) models.Bill {
+func GetBillsByCustomerID(id int) (models.Bill, error) {
 	var billofCustomer models.Bill
 	for _, bill := range database.AllBills {
 		if id == bill.CustomerID {
 			billofCustomer = bill
+			return billofCustomer, nil
 		}
 	}
-	return billofCustomer
+	return billofCustomer, errors.New("No bills were found")
 }
