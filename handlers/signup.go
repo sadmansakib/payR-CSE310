@@ -11,10 +11,10 @@ import (
 func SignupNewCustomer() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		customer := models.Customer{}
-		c.ShouldBindQuery(&customer)
+		c.ShouldBindJSON(&customer)
 
 		services.SignupCustomer(customer)
 
-		c.String(http.StatusCreated, "SUCCESS")
+		c.Status(http.StatusCreated)
 	}
 }
