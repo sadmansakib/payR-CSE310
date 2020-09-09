@@ -6,11 +6,11 @@ import (
 	"payR/models"
 )
 
-func getAllCustomers() []models.Customer {
+func GetAllCustomers() []models.Customer {
 	return database.Allcustomers
 }
 
-func getCustomerByID(id int) (models.Customer, error) {
+func GetCustomerByID(id int) (models.Customer, error) {
 	var foundCustomer models.Customer
 	for _, customer := range database.Allcustomers {
 		if id == customer.ID {

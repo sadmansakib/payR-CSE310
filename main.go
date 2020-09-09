@@ -1,5 +1,16 @@
 package main
 
+import (
+	"payR/handlers"
+
+	"github.com/gin-gonic/gin"
+)
+
 func main() {
-	println("Hello")
+	router := gin.Default()
+
+	router.GET("/customers", handlers.GetAllCustomers())
+	router.GET("/customers/:id", handlers.GetCustomerById())
+
+	router.Run()
 }

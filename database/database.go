@@ -4,8 +4,8 @@ import "payR/models"
 
 var customer1 = models.Customer{
 	ID:       1,
-	FName:    "abc",
-	LName:    "edf",
+	FName:    "customer",
+	LName:    "one",
 	Email:    "abc@example.com",
 	Password: "asd",
 	Mobile:   "0123456",
@@ -13,8 +13,8 @@ var customer1 = models.Customer{
 
 var customer2 = models.Customer{
 	ID:       2,
-	FName:    "edf",
-	LName:    "ghi",
+	FName:    "customer",
+	LName:    "two",
 	Email:    "ksk@example.com",
 	Password: "asd",
 	Mobile:   "0123458",

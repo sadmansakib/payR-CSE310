@@ -5,11 +5,12 @@ import (
 	"payR/models"
 )
 
-func getAllBills() []models.Bill {
+
+func GetAllBills() []models.Bill {
 	return database.AllBills
 }
 
-func getBillsByCustomerID(id int) models.Bill {
+func GetBillsByCustomerID(id int) models.Bill {
 	var billofCustomer models.Bill
 	for _, bill := range database.AllBills {
 		if id == bill.CustomerID {
