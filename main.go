@@ -30,6 +30,6 @@ func main() {
 	router.POST("/signup", handlers.SignupNewCustomer())
 	router.POST("/login", handlers.Login())
 
-	router.Run()
+	router.Run() //you can do `router.Run(":1234")` to change port
 
 }
