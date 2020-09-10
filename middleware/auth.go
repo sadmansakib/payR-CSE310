@@ -35,12 +35,13 @@ func CheckAuthorization() gin.HandlerFunc {
 					// if no result (replace false with err != nil or whatever)
 					fmt.Println("Invalid User")
 					c.JSON(http.StatusInternalServerError, gin.H{"error": "User doesn't exist"})
-					c.Abort()
+					c.Abort() // Abort and return will cause the request to be dropped before it even reaches a handler
 					return
 				} else {
 					fmt.Println("valid customer")
 					c.Set("customer_id", pl.Subject)
-					c.Next()
+					c.Next() // c.Next() will directly let the request go to the handler
+					// Not mandatory, If the middleware doesn't abort, it will call c.Next() automatically
 				}
 			} else {
 				c.JSON(http.StatusForbidden, gin.H{
