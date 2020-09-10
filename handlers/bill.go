@@ -10,7 +10,7 @@ import (
 
 func GetBillsByCustomerID() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		cstmrID := c.Param("id")
+		cstmrID := c.MustGet("customer_id").(string)
 		id, err := strconv.Atoi(cstmrID)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "id invalid"})
