@@ -9,6 +9,7 @@ import (
 func SignupCustomer(
 	customer models.Customer,
 ) {
+
 	sqlQuery := `INSERT INTO customer (fname, lname, email, mobile, pass)
 	VALUES ($1, $2, $3, $4, $5)`
 
@@ -17,7 +18,7 @@ func SignupCustomer(
 		customer.LName,
 		customer.Email,
 		customer.Mobile,
-		customer.Password)
+		customer.HashedPassword)
 
 	if error != nil {
 		log.Fatal(error)

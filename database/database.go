@@ -3,21 +3,21 @@ package database
 import "payR/models"
 
 var customer1 = models.Customer{
-	ID:       1,
-	FName:    "customer",
-	LName:    "one",
-	Email:    "abc@example.com",
-	Password: "asd",
-	Mobile:   "0123456",
+	ID:             1,
+	FName:          "customer",
+	LName:          "one",
+	Email:          "abc@example.com",
+	HashedPassword: "asd",
+	Mobile:         "0123456",
 }
 
 var customer2 = models.Customer{
-	ID:       2,
-	FName:    "customer",
-	LName:    "two",
-	Email:    "ksk@example.com",
-	Password: "asd",
-	Mobile:   "0123458",
+	ID:             2,
+	FName:          "customer",
+	LName:          "two",
+	Email:          "ksk@example.com",
+	HashedPassword: "asd",
+	Mobile:         "0123458",
 }
 
 var billCustomer1 = models.Bill{
