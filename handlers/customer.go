@@ -18,7 +18,7 @@ func GetAllCustomers() gin.HandlerFunc {
 
 func GetCustomerById() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		idStr := c.Param("id")
+		idStr := c.MustGet("customer_id").(string) // Get the user id put in by auth middleware by decoding token
 		id, err := strconv.Atoi(idStr)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "id invalid"})
