@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	db "payR/database"
 	"payR/middleware"
 	"payR/models"
 	"strconv"
@@ -25,6 +24,7 @@ type EmailAndPass struct {
 func Login() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		fmt.Println("LOGIN: called")
+		client := c.MustGet("client").(*sql.DB)
 		emailAndPass := EmailAndPass{}
 
 		err := c.ShouldBindJSON(&emailAndPass)
@@ -40,7 +40,7 @@ func Login() gin.HandlerFunc {
 
 			var fetchedCustomer models.Customer
 
-			row := db.DBInstance.QueryRow(sqlQuery, email)
+			row := client.QueryRow(sqlQuery, email)
 
 			err := row.Scan(&fetchedCustomer.ID, &fetchedCustomer.HashedPassword)
 

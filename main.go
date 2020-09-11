@@ -1,6 +1,7 @@
 package main
 
 import (
+	"payR/database"
 	"payR/handlers"
 	"payR/middleware"
 
@@ -9,6 +10,8 @@ import (
 
 func main() {
 	router := gin.Default()
+
+	router.Use(middleware.ProvideDBInstance(database.DBInstance))
 
 	router.GET("/customers", handlers.GetAllCustomers())
 

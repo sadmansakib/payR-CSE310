@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 	"payR/models"
@@ -21,6 +22,7 @@ type CustomerBinding struct {
 func SignupNewCustomer() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		customerBinding := CustomerBinding{}
+		client := c.MustGet("client").(*sql.DB)
 
 		c.ShouldBind(&customerBinding)
 
@@ -40,7 +42,7 @@ func SignupNewCustomer() gin.HandlerFunc {
 			HashedPassword: customerBinding.Password,
 		}
 
-		services.SignupCustomer(customer)
+		services.SignupCustomer(customer, client)
 
 		c.Status(http.StatusCreated)
 	}

@@ -1,19 +1,20 @@
 package services
 
 import (
+	"database/sql"
 	"log"
-	db "payR/database"
 	"payR/models"
 )
 
 func SignupCustomer(
 	customer models.Customer,
+	dbInstance *sql.DB,
 ) {
 
 	sqlQuery := `INSERT INTO customer (fname, lname, email, mobile, pass)
 	VALUES ($1, $2, $3, $4, $5)`
 
-	_, error := db.DBInstance.Exec(sqlQuery,
+	_, error := dbInstance.Exec(sqlQuery,
 		customer.FName,
 		customer.LName,
 		customer.Email,
