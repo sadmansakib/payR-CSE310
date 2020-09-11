@@ -12,6 +12,7 @@ func main() {
 	router := gin.Default()
 
 	router.Use(middleware.ProvideDBInstance(database.DBInstance))
+	router.Use(middleware.CorsMiddleware())
 
 	router.GET("/customers", handlers.GetAllCustomers())
 
