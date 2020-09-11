@@ -11,6 +11,12 @@ import (
 	_ "github.com/lib/pq"
 )
 
+var DBInstance *sql.DB
+
+func init() {
+	DBInstance = ConnectDB()
+}
+
 func ConnectDB() *sql.DB {
 	err := godotenv.Load()
 

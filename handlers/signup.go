@@ -11,7 +11,7 @@ import (
 func SignupNewCustomer() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		customer := models.Customer{}
-		c.ShouldBindJSON(&customer)
+		c.ShouldBind(&customer)
 
 		services.SignupCustomer(customer)
 
