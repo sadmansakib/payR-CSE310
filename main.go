@@ -14,8 +14,6 @@ func main() {
 	router.Use(middleware.ProvideDBInstance(database.DBInstance))
 	router.Use(middleware.CorsMiddleware())
 
-	router.GET("/customers", handlers.GetAllCustomers())
-
 	//--------------------------Authentication Required Routes
 	authorized := router.Group("/")
 

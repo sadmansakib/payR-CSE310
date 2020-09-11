@@ -9,14 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetAllCustomers() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"customers": services.GetAllCustomers(),
-		})
-	}
-}
-
 func GetCustomerById() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idStr := c.MustGet("customer_id").(string) // Get the user id put in by auth middleware by decoding token

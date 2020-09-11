@@ -4,13 +4,8 @@ import (
 	"database/sql"
 	"errors"
 	"log"
-	"payR/database"
 	"payR/models"
 )
-
-func GetAllCustomers() []models.Customer {
-	return database.Allcustomers
-}
 
 func GetCustomerByID(id int, client *sql.DB) (models.Customer, error) {
 	var foundCustomer models.Customer

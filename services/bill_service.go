@@ -1,18 +1,38 @@
 package services
 
 import (
+	"database/sql"
 	"errors"
-	"payR/database"
+	"log"
 	"payR/models"
 )
 
-func GetBillsByCustomerID(id int) (models.Bill, error) {
-	var billofCustomer models.Bill
-	for _, bill := range database.AllBills {
-		if id == bill.CustomerID {
-			billofCustomer = bill
-			return billofCustomer, nil
-		}
+func GetBillsByCustomerID(id int, client *sql.DB) (models.Bill, error) {
+	var billsofCustomer models.Bill
+
+	sqlQuery := `SELECT * FROM bills WHERE customer_id = $1`
+
+	row := client.QueryRow(sqlQuery, id)
+
+	err := row.Scan(
+		&billsofCustomer.ID,
+		&billsofCustomer.CustomerID,
+		&billsofCustomer.Mobile,
+		&billsofCustomer.BillType,
+		&billsofCustomer.EquipmentCount,
+		&billsofCustomer.Amount,
+		&billsofCustomer.AccountID,
+		&billsofCustomer.PaymentMethod,
+		&billsofCustomer.SubmitDate,
+	)
+
+	switch err {
+	case sql.ErrNoRows:
+		log.Fatal("No bills were submitted for this user")
+		return billsofCustomer, errors.New("Customer not found")
+	case nil:
+		return billsofCustomer, nil
+	default:
+		panic(err)
 	}
-	return billofCustomer, errors.New("No bills were found")
 }
