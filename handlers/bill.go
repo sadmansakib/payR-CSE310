@@ -54,23 +54,20 @@ func SubmitBill() gin.HandlerFunc {
 
 		c.ShouldBind(&billBinding)
 
-		billBinding.CustomerID = id
-		billBinding.AccountID = 1
-
 		bill := models.Bill{
-			CustomerID:     billBinding.CustomerID,
+			CustomerID:     id,
 			Mobile:         billBinding.Mobile,
 			BillType:       billBinding.BillType,
 			EquipmentCount: billBinding.EquipmentCount,
 			Amount:         billBinding.Amount,
-			AccountID:      billBinding.AccountID,
+			AccountID:      1,
 			PaymentMethod:  billBinding.PaymentMethod,
 			SubmitDate:     billBinding.SubmitDate,
 		}
 
 		services.SubmitBill(bill, client)
 
-		c.JSON(http.StatusOK, gin.H{"success":"Bill payment successful"})
+		c.JSON(http.StatusOK, gin.H{"success": "Bill payment successful"})
 
 	}
 }

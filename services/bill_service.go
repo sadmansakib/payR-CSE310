@@ -1,6 +1,7 @@
 package services
 
 import (
+	"context"
 	"database/sql"
 	"errors"
 	"log"
@@ -38,7 +39,15 @@ func GetBillsByCustomerID(id int, client *sql.DB) (models.Bill, error) {
 }
 
 func SubmitBill(bill models.Bill, client *sql.DB) {
-	sqlQuery := `INSERT INTO bill (customer_id, 
+	ctx := context.Background()
+
+	tx, err := client.BeginTx(ctx, nil)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	billPayQuery := `INSERT INTO bill (customer_id, 
 		mobile, 
 		bill_type, 
 		equipment_count, 
@@ -48,7 +57,7 @@ func SubmitBill(bill models.Bill, client *sql.DB) {
 		sibmit_date) 
 		VALUES($1,$2,$3,$4,$5,$6,$7,$8)
 	`
-	_, err := client.Exec(sqlQuery,
+	_, err = tx.ExecContext(ctx, billPayQuery,
 		bill.CustomerID,
 		bill.Mobile,
 		bill.BillType,
@@ -58,7 +67,34 @@ func SubmitBill(bill models.Bill, client *sql.DB) {
 		bill.PaymentMethod, bill.SubmitDate)
 
 	if err != nil {
-		log.Fatal(err)
-		panic(err)
+		tx.Rollback()
+		return
 	}
+
+	totalBillQuery := `SELECT SUM(amount) FROM bill WHERE account_id = 1`
+
+	totalAmount := 0.0
+
+	err = tx.QueryRowContext(ctx, totalBillQuery).Scan(&totalAmount)
+
+	if err != nil {
+		tx.Rollback()
+		return
+	}
+
+	updataAccountBalanceQuery := `UPDATE account SET total_amount = $1 WHERE id = 1`
+
+	_, err = tx.ExecContext(ctx, updataAccountBalanceQuery, totalAmount)
+
+	if err != nil {
+		tx.Rollback()
+		return
+	}
+
+	err = tx.Commit()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 }
