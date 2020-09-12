@@ -36,3 +36,29 @@ func GetBillsByCustomerID(id int, client *sql.DB) (models.Bill, error) {
 		panic(err)
 	}
 }
+
+func SubmitBill(bill models.Bill, client *sql.DB) {
+	sqlQuery := `INSERT INTO bill (customer_id, 
+		mobile, 
+		bill_type, 
+		equipment_count, 
+		amount, 
+		account_id, 
+		payment_method, 
+		sibmit_date) 
+		VALUES($1,$2,$3,$4,$5,$6,$7,$8)
+	`
+	_, err := client.Exec(sqlQuery,
+		bill.CustomerID,
+		bill.Mobile,
+		bill.BillType,
+		bill.EquipmentCount,
+		bill.Amount,
+		bill.AccountID,
+		bill.PaymentMethod, bill.SubmitDate)
+
+	if err != nil {
+		log.Fatal(err)
+		panic(err)
+	}
+}
