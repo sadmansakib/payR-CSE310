@@ -16,8 +16,8 @@ func GetCustomerByID(id int, client *sql.DB) (models.Customer, error) {
 	err := row.Scan(&foundCustomer.ID,
 		&foundCustomer.FName,
 		&foundCustomer.LName,
-		&foundCustomer.Email,
 		&foundCustomer.Mobile,
+		&foundCustomer.Email,
 		&foundCustomer.HashedPassword)
 
 	switch err {
