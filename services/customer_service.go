@@ -9,16 +9,31 @@ import (
 
 func GetCustomerByID(id int, client *sql.DB) (models.Customer, error) {
 	var foundCustomer models.Customer
-	sqlQuery := `SELECT * FROM customer WHERE id = $1;`
+	sqlQuery :=
+		`
+	SELECT 
+		id,
+		email,
+		pass,
+		fName,
+		lName,
+		mobile
+	FROM 
+		Customer
+	WHERE 
+		id = $1;
+	`
 
 	row := client.QueryRow(sqlQuery, id)
 
-	err := row.Scan(&foundCustomer.ID,
+	err := row.Scan(
+		&foundCustomer.ID,
+		&foundCustomer.Email,
+		&foundCustomer.HashedPassword,
 		&foundCustomer.FName,
 		&foundCustomer.LName,
 		&foundCustomer.Mobile,
-		&foundCustomer.Email,
-		&foundCustomer.HashedPassword)
+	)
 
 	switch err {
 	case sql.ErrNoRows:
