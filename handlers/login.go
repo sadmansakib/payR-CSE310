@@ -31,7 +31,6 @@ func Login() gin.HandlerFunc {
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Println(emailAndPass)
 		email, password := emailAndPass.Email, emailAndPass.Password
 
 		if len(email) > 0 && len(password) > 0 {
@@ -43,8 +42,6 @@ func Login() gin.HandlerFunc {
 			row := client.QueryRow(sqlQuery, email)
 
 			err := row.Scan(&fetchedCustomer.ID, &fetchedCustomer.HashedPassword)
-
-			fmt.Println(fetchedCustomer.ID)
 
 			switch err {
 			case sql.ErrNoRows:
@@ -79,9 +76,6 @@ func Login() gin.HandlerFunc {
 						})
 					} else {
 						//--------------------------------IF JWT SIGNING SUCCEEDES
-						fmt.Println(gin.H{
-							"token": string(token),
-						})
 						c.JSON(http.StatusOK, gin.H{
 							"token": string(token),
 						})

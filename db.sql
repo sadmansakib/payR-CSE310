@@ -22,8 +22,8 @@ CREATE TABLE Bill(
     amount              FLOAT           NOT NULL,
     account_id          BIGINT          NOT NULL REFERENCES Account (id),
     payment_method      VARCHAR(30)     NOT NULL,
-    sibmit_date         DATE
+    submit_date         DATE
 );
 
-INSERT INTO account(total_amount) VALUE(0.0);
+INSERT INTO Account(total_amount) VALUE(0.0);
 
