@@ -27,6 +27,7 @@ func main() {
 	{
 		authorized.GET("/customers/customer", handlers.GetCustomerById())
 		authorized.GET("/customers/customer/bills", handlers.GetBillsByCustomerID())
+		authorized.POST("/customers/customer/bills", handlers.SubmitBill())
 	}
 
 	router.POST("/signup", handlers.SignupNewCustomer())
