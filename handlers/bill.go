@@ -20,13 +20,17 @@ func GetBillsByCustomerID() gin.HandlerFunc {
 			return
 		}
 		bill, err := services.GetBillsByCustomerID(id, client)
-		if err != nil {
-			c.JSON(http.StatusNotFound, gin.H{"error": "No bills were submitted"})
+
+		switch err {
+		case sql.ErrNoRows:
+			c.JSON(http.StatusNotFound, gin.H{"error": "No bills where submitted"})
 			return
+		case nil:
+			c.JSON(http.StatusOK, gin.H{"bills": bill})
+			return
+		default:
+			c.JSON(http.StatusNotFound, gin.H{"error": "No bills where submitted"})
 		}
-		c.JSON(http.StatusOK, gin.H{
-			"bill": bill,
-		})
 	}
 }
 
@@ -52,7 +56,7 @@ func SubmitBill() gin.HandlerFunc {
 			return
 		}
 
-		c.ShouldBind(&billBinding)
+		c.ShouldBindJSON(&billBinding)
 
 		bill := models.Bill{
 			CustomerID:     id,

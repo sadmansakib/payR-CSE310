@@ -42,14 +42,7 @@ func GetBillsByCustomerID(id int, client *sql.DB) (models.Bill, error) {
 		&billsofCustomer.SubmitDate,
 	)
 
-	switch err {
-	case sql.ErrNoRows:
-		return billsofCustomer, nil
-	case nil:
-		return billsofCustomer, nil
-	default:
-		panic(err)
-	}
+	return billsofCustomer, err
 }
 
 func SubmitBill(bill models.Bill, client *sql.DB) {
