@@ -3,7 +3,6 @@ package handlers
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"net/http"
 	"payR/middleware"
 	"payR/models"
@@ -45,7 +44,7 @@ func Login() gin.HandlerFunc {
 
 			switch err {
 			case sql.ErrNoRows:
-				log.Fatal("LOGIN: User Doesn't Exist - Aborting Login")
+				// log.Fatal("LOGIN: User Doesn't Exist - Aborting Login")
 				c.JSON(http.StatusNotFound, gin.H{"error": "User doesn't exist"})
 				return
 			case nil:
@@ -82,7 +81,7 @@ func Login() gin.HandlerFunc {
 					}
 				}
 			default:
-				panic(err)
+				c.JSON(http.StatusNotFound, gin.H{"error": "User doesn't exist"})
 			}
 		} else {
 			//--------------------------------IF ALL FIELDS NOT PROVIDED

@@ -11,12 +11,20 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// type CustomerBinding struct {
+// 	FName    string `json:"first_name" form:"first_name"`
+// 	LName    string `json:"last_name" form:"last_name"`
+// 	Email    string `json:"email" form:"email"`
+// 	Mobile   string `json:"mobile" form:"mobile"`
+// 	Password string `json:"password" form:"password"`
+// }
+
 type CustomerBinding struct {
-	FName    string `json:"first_name" form:"first_name"`
-	LName    string `json:"last_name" form:"last_name"`
-	Email    string `json:"email" form:"email"`
-	Mobile   string `json:"mobile" form:"mobile"`
-	Password string `json:"password" form:"password"`
+	FName    string `json:"first_name"`
+	LName    string `json:"last_name"`
+	Email    string `json:"email"`
+	Mobile   string `json:"mobile"`
+	Password string `json:"password"`
 }
 
 func SignupNewCustomer() gin.HandlerFunc {
@@ -24,7 +32,7 @@ func SignupNewCustomer() gin.HandlerFunc {
 		customerBinding := CustomerBinding{}
 		client := c.MustGet("client").(*sql.DB)
 
-		c.ShouldBind(&customerBinding)
+		c.ShouldBindJSON(&customerBinding)
 
 		passwrd, error := bcrypt.GenerateFromPassword([]byte(customerBinding.Password), bcrypt.DefaultCost)
 

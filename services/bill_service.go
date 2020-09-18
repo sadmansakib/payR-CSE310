@@ -44,7 +44,6 @@ func GetBillsByCustomerID(id int, client *sql.DB) (models.Bill, error) {
 
 	switch err {
 	case sql.ErrNoRows:
-
 		return billsofCustomer, nil
 	case nil:
 		return billsofCustomer, nil
