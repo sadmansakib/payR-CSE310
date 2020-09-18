@@ -4,7 +4,9 @@ import (
 	"payR/database"
 	"payR/handlers"
 	"payR/middleware"
+	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,7 +14,14 @@ func main() {
 	router := gin.Default()
 
 	router.Use(middleware.ProvideDBInstance(database.DBInstance))
-	router.Use(middleware.CorsMiddleware())
+	router.Use(cors.New(cors.Config{
+		AllowAllOrigins:  true,
+		AllowMethods:     []string{"PUT", "PATCH", "GET", "POST", "UPDATE", "DELETE"},
+		AllowHeaders:     []string{"Content-Type", "Content-length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "X-Max", "X-Auth-Secret", "Uid", "Aid", "CToken"},
+		ExposeHeaders:    []string{"Content-Length", "Content-Type"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	//--------------------------Authentication Required Routes
 	authorized := router.Group("/")
