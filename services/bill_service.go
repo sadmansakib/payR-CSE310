@@ -73,6 +73,8 @@ func SubmitBill(bill models.Bill, client *sql.DB) {
 		bill.AccountID,
 		bill.PaymentMethod, bill.SubmitDate)
 
+	log.Print(err)
+
 	if err != nil {
 		tx.Rollback()
 		return
@@ -80,9 +82,11 @@ func SubmitBill(bill models.Bill, client *sql.DB) {
 
 	totalBillQuery := `SELECT SUM(amount) FROM bill WHERE account_id = 1`
 
-	totalAmount := 0.0
+	var totalAmount float64
 
-	err = tx.QueryRowContext(ctx, totalBillQuery).Scan(&totalAmount)
+	err = tx.QueryRow(totalBillQuery).Scan(&totalAmount)
+
+	log.Print(err)
 
 	if err != nil {
 		tx.Rollback()
@@ -92,6 +96,8 @@ func SubmitBill(bill models.Bill, client *sql.DB) {
 	updataAccountBalanceQuery := `UPDATE account SET total_amount = $1 WHERE id = 1`
 
 	_, err = tx.ExecContext(ctx, updataAccountBalanceQuery, totalAmount)
+
+	log.Print(err)
 
 	if err != nil {
 		tx.Rollback()

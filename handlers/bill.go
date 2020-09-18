@@ -6,6 +6,7 @@ import (
 	"payR/models"
 	"payR/services"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -42,7 +43,7 @@ type BillBinding struct {
 	Amount         float64 `json:"amount"`
 	AccountID      int     `json:"account_id"`
 	PaymentMethod  string  `json:"payment_method"`
-	SubmitDate     string  `json:"submition_data"`
+	SubmitDate     time.Time
 }
 
 func SubmitBill() gin.HandlerFunc {
@@ -66,7 +67,7 @@ func SubmitBill() gin.HandlerFunc {
 			Amount:         billBinding.Amount,
 			AccountID:      1,
 			PaymentMethod:  billBinding.PaymentMethod,
-			SubmitDate:     billBinding.SubmitDate,
+			SubmitDate:     time.Now(),
 		}
 
 		services.SubmitBill(bill, client)

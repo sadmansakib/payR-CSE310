@@ -16,7 +16,7 @@ func CheckAuthorization() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// token is usually put in the header, not the json body
 		token := []byte(c.GetHeader("token")) // the jwt library needs token to be in byte format, not string
-		fmt.Printf("token: %s", string(token))
+		// fmt.Printf("token: %s", string(token))
 		if len(token) > 0 {
 			//--------------------------------IF TOKEN PROVIDED
 			var pl models.CustomPayload
