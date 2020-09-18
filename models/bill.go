@@ -1,5 +1,9 @@
 package models
 
+import (
+	"time"
+)
+
 type Bill struct {
 	ID             int     `json:"bill_id"`
 	CustomerID     int     `json:"id,omitempty"`
@@ -9,5 +13,5 @@ type Bill struct {
 	Amount         float64 `json:"amount"`
 	AccountID      int     `json:"account_id"`
 	PaymentMethod  string  `json:"payment_method"`
-	SubmitDate     string  `json:"submition_data"`
+	SubmitDate     time.Time
 }
