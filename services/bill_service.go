@@ -7,8 +7,8 @@ import (
 	"payR/models"
 )
 
-func GetBillsByCustomerID(id int, client *sql.DB) (models.Bill, error) {
-	var billsofCustomer models.Bill
+func GetBillsByCustomerID(id int, client *sql.DB) ([]models.Bill, error) {
+	billsofCustomer := []models.Bill{}
 
 	sqlQuery :=
 		`
@@ -23,24 +23,32 @@ func GetBillsByCustomerID(id int, client *sql.DB) (models.Bill, error) {
 		payment_method,
 		submit_date
 	FROM 
-		Bill
+		bill
 	WHERE 
 		customer_id = $1
 	`
+	row, err := client.Query(sqlQuery, id)
 
-	row := client.QueryRow(sqlQuery, id)
+	for row.Next() {
+		var billOfCustomer models.Bill
 
-	err := row.Scan(
-		&billsofCustomer.ID,
-		&billsofCustomer.CustomerID,
-		&billsofCustomer.AccountID,
-		&billsofCustomer.Mobile,
-		&billsofCustomer.BillType,
-		&billsofCustomer.EquipmentCount,
-		&billsofCustomer.Amount,
-		&billsofCustomer.PaymentMethod,
-		&billsofCustomer.SubmitDate,
-	)
+		err := row.Scan(
+			&billOfCustomer.ID,
+			&billOfCustomer.CustomerID,
+			&billOfCustomer.AccountID,
+			&billOfCustomer.Mobile,
+			&billOfCustomer.BillType,
+			&billOfCustomer.EquipmentCount,
+			&billOfCustomer.Amount,
+			&billOfCustomer.PaymentMethod,
+			&billOfCustomer.SubmitDate,
+		)
+
+		if err == nil {
+			billsofCustomer = append(billsofCustomer, billOfCustomer)
+		}
+
+	}
 
 	return billsofCustomer, err
 }
