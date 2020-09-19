@@ -16,8 +16,8 @@ func main() {
 	router.Use(middleware.ProvideDBInstance(database.DBInstance))
 	router.Use(cors.New(cors.Config{
 		AllowAllOrigins:  true,
-		AllowMethods:     []string{"PUT", "PATCH", "GET", "POST", "UPDATE", "DELETE"},
-		AllowHeaders:     []string{"Content-Type", "Content-length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "X-Max", "X-Auth-Secret", "Uid", "Aid", "CToken"},
+		AllowMethods:     []string{"GET", "POST"},
+		AllowHeaders:     []string{"Content-Type", "Content-length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "X-Max", "X-Auth-Secret", "Uid", "Aid", "CToken", "token"},
 		ExposeHeaders:    []string{"Content-Length", "Content-Type"},
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,

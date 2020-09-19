@@ -19,12 +19,17 @@ func GetCustomerById() gin.HandlerFunc {
 			return
 		}
 		customer, err := services.GetCustomerByID(id, client)
-		if err != nil {
-			c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
+
+		switch err {
+		case sql.ErrNoRows:
+			c.JSON(http.StatusNotFound, gin.H{"error": "No users found"})
 			return
+		case nil:
+			c.JSON(http.StatusOK, gin.H{"customer": customer})
+			return
+		default:
+			c.JSON(http.StatusNotFound, gin.H{"error": "No users found"})
 		}
-		c.JSON(http.StatusOK, gin.H{
-			"customer": customer,
-		})
+
 	}
 }
